@@ -3,8 +3,8 @@
 <head>
   <style>
     .game-container {
-      width: 600px;
-      height: 150px;
+      width: 100vw;
+      height: 100vh;
       background-color: lightgray;
       position: relative;
     }
@@ -31,22 +31,21 @@
     <div class="dino"></div>
     <div class="obstacle"></div>
   </div>
-  <button id="jump-btn">Jump</button>
-  <button id="duck-btn">Duck</button>
 
   <script>
     const dino = document.querySelector('.dino');
     const obstacle = document.querySelector('.obstacle');
-    const jumpBtn = document.querySelector('#jump-btn');
-    const duckBtn = document.querySelector('#duck-btn');
 
-    jumpBtn.addEventListener('click', () => {
-      dino.style.bottom = '75px';
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Space') {
+        dino.style.bottom = '75px';
+      }
     });
 
-    duckBtn.addEventListener('click', () => {
-      dino.style.height = '25px';
-      dino.style.bottom = '125px';
+    document.addEventListener('keyup', (event) => {
+      if (event.code === 'Space') {
+        dino.style.bottom = '0px';
+      }
     });
 
     setInterval(() => {
@@ -56,3 +55,4 @@
   </script>
 </body>
 </html>
+
