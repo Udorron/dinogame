@@ -22,19 +22,18 @@
       background-color: green;
       position: absolute;
       bottom: 0;
-      right: 0;
+      right: -100px;
     }
   </style>
 </head>
 <body>
   <div class="game-container">
     <div class="dino"></div>
-    <div class="obstacle"></div>
   </div>
 
   <script>
     const dino = document.querySelector('.dino');
-    const obstacle = document.querySelector('.obstacle');
+    const gameContainer = document.querySelector('.game-container');
 
     document.addEventListener('keydown', (event) => {
       if (event.code === 'Space') {
@@ -49,10 +48,24 @@
     });
 
     setInterval(() => {
-      const x = parseInt(obstacle.style.right || 0);
+      const obstacle = document.createElement('div');
+      obstacle.classList.add('obstacle');
+      gameContainer.appendChild(obstacle);
+
+      let x = parseInt(obstacle.style.right || 0);
       obstacle.style.right = `${x + 5}px`;
-    }, 50);
+
+      setInterval(() => {
+        x = parseInt(obstacle.style.right || 0);
+        if (x > gameContainer.offsetWidth) {
+          obstacle.remove();
+        } else {
+          obstacle.style.right = `${x + 5}px`;
+        }
+      }, 50);
+    }, 2000);
   </script>
 </body>
 </html>
+
 
