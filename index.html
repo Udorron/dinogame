@@ -1,64 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      #game-container {
-        width: 600px;
-        height: 150px;
-        background-color: #ddd;
-        position: relative;
-      }
-      .dino {
-        width: 50px;
-        height: 50px;
-        background-color: green;
-        position: absolute;
-        bottom: 0;
-        left: 270px;
-      }
-      .obstacle {
-        width: 50px;
-        height: 50px;
-        background-color: red;
-        position: absolute;
-        bottom: 0;
-        right: -50px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="game-container">
-      <div class="dino"></div>
-      <div class="obstacle"></div>
-    </div>
-    
-    <script>
-      const dino = document.querySelector(".dino");
-      const obstacle = document.querySelector(".obstacle");
-      let gameOver = false;
-      
-      function update() {
-        if (gameOver) return;
-        
-        obstacle.style.right = parseInt(obstacle.style.right) + 10 + "px";
-        
-        if (
-          parseInt(obstacle.style.right) > parseInt(obstacle.style.width) &&
-          parseInt(obstacle.style.right) <
-            parseInt(obstacle.style.width) + parseInt(dino.style.width)
-        ) {
-          gameOver = true;
-          alert("Game Over");
-        }
-      }
-      
-      setInterval(update, 50);
-      
-      document.addEventListener("keydown", function(event) {
-        if (event.code === "Space") {
-          dino.style.bottom = parseInt(dino.style.bottom) + 50 + "px";
-        }
-      });
-    </script>
-  </body>
+<head>
+  <style>
+    .game-container {
+      width: 600px;
+      height: 150px;
+      background-color: lightgray;
+      position: relative;
+    }
+    .dino {
+      width: 50px;
+      height: 50px;
+      background-color: brown;
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+    }
+    .obstacle {
+      width: 25px;
+      height: 25px;
+      background-color: green;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="dino"></div>
+    <div class="obstacle"></div>
+  </div>
+  <button id="jump-btn">Jump</button>
+  <button id="duck-btn">Duck</button>
+
+  <script>
+    const dino = document.querySelector('.dino');
+    const obstacle = document.querySelector('.obstacle');
+    const jumpBtn = document.querySelector('#jump-btn');
+    const duckBtn = document.querySelector('#duck-btn');
+
+    jumpBtn.addEventListener('click', () => {
+      dino.style.bottom = '75px';
+    });
+
+    duckBtn.addEventListener('click', () => {
+      dino.style.height = '25px';
+      dino.style.bottom = '125px';
+    });
+
+    setInterval(() => {
+      const x = parseInt(obstacle.style.right || 0);
+      obstacle.style.right = `${x + 5}px`;
+    }, 50);
+  </script>
+</body>
 </html>
