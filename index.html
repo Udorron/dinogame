@@ -43,44 +43,65 @@
     const gameContainer = document.querySelector('.game-container');
     const scoreDisplay = document.querySelector('#score');
     let score = 0;
+    let isGameOver = false;
+    let obstacleInterval = 2000;
 
     document.addEventListener('keydown', (event) => {
       if (event.code === 'Space') {
         dino.style.bottom = '75px';
-      }
-    });
-
-    document.addEventListener('keyup', (event) => {
-      if (event.code === 'Space') {
-        dino.style.bottom = '0px';
+        setTimeout(() => {
+          dino.style.bottom = '0px';
+        }, 1000);
       }
     });
 
     setInterval(() => {
-      score += 1;
-      scoreDisplay.innerText = `Score: ${score}`;
+      if (!isGameOver) {
+        score += 1;
+        scoreDisplay.innerText = `Score: ${score}`;
+      }
     }, 1000);
 
     setInterval(() => {
-      const obstacle = document.createElement('div');
-      obstacle.classList.add('obstacle');
-      gameContainer.appendChild(obstacle);
+      if (!isGameOver) {
+        const obstacle = document.createElement('div');
+        obstacle.classList.add('obstacle');
+        gameContainer.appendChild(obstacle);
 
-      let x = parseInt(obstacle.style.right || 0);
-      obstacle.style.right = `${x + 5}px`;
+        let x = parseInt(obstacle.style.right || 0);
+        obstacle.style.right = `${x + 5}px`;
 
-      setInterval(() => {
-        x = parseInt(obstacle.style.right || 0);
-        if (x > gameContainer.offsetWidth) {
-          obstacle.remove();
-        } else {
-          obstacle.style.right = `${x + 5}px`;
-        }
-      }, 50);
-    }, 2000);
+        setInterval(() => {
+          x = parseInt(obstacle.style.right || 0);
+          if (x > gameContainer.offsetWidth) {
+            obstacle.remove();
+          } else {
+            obstacle.style.right = `${x + 5}px`;
+            if (
+              x > dino.offsetLeft &&
+              x < dino.offsetLeft + dino.offsetWidth &&
+              obstacle.offsetTop + obstacle.offsetHeight >= dino.offsetTop
+            ) {
+              isGameOver = true;
+              alert(`Game Over! Score: ${score}`);
+            }
+          }
+        }, 50);
+      }
+    }, obstacleInterval);
+
+    setInterval(() => {
+      if (!isGameOver) {
+        obstacleInterval = Math.max(
+          obstacleInterval - 10,
+          100
+        );
+           }, 10000);
+    }, 10000);
   </script>
 </body>
 </html>
+
 
 
 
